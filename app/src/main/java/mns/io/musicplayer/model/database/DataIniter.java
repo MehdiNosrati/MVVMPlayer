@@ -20,6 +20,14 @@ public class DataIniter {
                 .allowMainThreadQueries()
                 .build();
         this.dao = dataBase.getMusicDao();
+
+        if (this.dataBase.getMusicDao().getMusics().size() < 100){
+            initLoacally();
+        }
+    }
+
+    private void initLoacally() {
+
     }
 
     public  void add(Music music){

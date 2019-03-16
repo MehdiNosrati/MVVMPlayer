@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "musics")
@@ -40,7 +41,16 @@ public class Music {
 
 
 
+    @Ignore
+    private boolean isPlaying = false;
 
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
 
     public int getDuration() {
         return duration;

@@ -1,7 +1,12 @@
 package mns.io.musicplayer.model.database;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.media.MediaActionSound;
+import android.provider.MediaStore;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.room.Room;
@@ -22,12 +27,35 @@ public class DataIniter {
         this.dao = dataBase.getMusicDao();
 
         if (this.dataBase.getMusicDao().getMusics().size() < 100){
-            initLoacally();
+            initLoacally(context);
         }
     }
 
-    private void initLoacally() {
+    private void initLoacally(Context context) {
+        Log.d("datas", "again locally");
+        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
+        String[] projection = {
+                MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.ARTIST,
+                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.DATA,
+                MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.DURATION,
+        };
+
+        Cursor cursor = context.getContentResolver().query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                projection,
+                selection,
+                null,
+                null);
+
+
+        while(cursor.moveToNext()){
+            this.add(new Music(cursor.getString(2), cursor.getString(3), Integer.parseInt(cursor.getString(5))));
+
+        }
     }
 
     public  void add(Music music){

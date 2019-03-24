@@ -1,33 +1,33 @@
 package mns.io.musicplayer.model.musicViewModel;
 
-import android.app.Application;
-import android.content.Context;    // make sure to ask about: "make sure there are no android.* imports in viewModels"
-import android.util.Log;
+import android.content.Context;
+import android.view.View;
 
-
-import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
+import androidx.databinding.BaseObservable;
+import mns.io.musicplayer.MainActivity;
+import mns.io.musicplayer.MusicPlayer;
 import mns.io.musicplayer.model.Music;
-import mns.io.musicplayer.model.repository.DataRepository;
 
-public class MusicViewModel extends AndroidViewModel {
-    private LiveData<List<Music>> modelLiveData = null;
+public class MusicViewModel extends BaseObservable {
+    private Music music;
 
-    public MusicViewModel(@NonNull Application application, Context context) {
-        super(application);
-        DataRepository repository = new DataRepository(context);
-        modelLiveData = repository.getMusic();
-        Log.d("MUSICVIEWMODELLOGGER", "datas here!");
+    MusicPlayer musicPlayer;
 
+    public MusicViewModel(Music m) {
+        this.music = m;
+    }
+    public String getName(){
+        return this.music.getName();
+    }
+    public String getDuration(){
+        return this.music.getDuration()+"";
+    }
+    public void setMusic(Music m){
+        this.music = m;
     }
 
-
-    public LiveData<List<Music>> getMusicsLiveData() {
-        return modelLiveData;
+    public void play(View view){
+        MusicPlayer.stop();
+        MusicPlayer.play(music);
     }
-
-
 }

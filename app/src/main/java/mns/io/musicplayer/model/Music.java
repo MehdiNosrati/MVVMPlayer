@@ -1,19 +1,24 @@
 package mns.io.musicplayer.model;
 
+import android.app.Application;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "musics")
-public class Music {
+public class Music extends BaseObservable {
     public Music(String name, @NonNull String path, int duration) {
         this.name = name;
         this.path = path;
         this.duration = duration;
     }
+
 
     private String name;
     @PrimaryKey
@@ -22,6 +27,7 @@ public class Music {
 
     private int duration;
 
+    @Bindable
     public String getName() {
         return name;
     }
@@ -52,6 +58,7 @@ public class Music {
         isPlaying = playing;
     }
 
+    @Bindable
     public int getDuration() {
         return duration;
     }
